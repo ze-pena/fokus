@@ -1,13 +1,58 @@
+import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
+const pomodoros = [
+  {
+    id: "focus",
+    initialValue: 25,
+    image: require('../assets/images/rest/focus.png'),
+    display: "Foco"
+  },
+  {
+    id: "short",
+    initialValue: 5,
+    image: require('../assets/images/rest/short.png'),
+    display: "Pausa curta"
+  },
+  {
+    id: "long",
+    initialValue: 15,
+    image: require('../assets/images/rest/long.png'),
+    display: "Pausa longa"
+  },
+]
+
 export default function Index() {
+  const [timerType, setTimerType] = useState(pomodoros[0])
+
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/images/rest/short_rest.png")} />
+      <Image source={timerType.image} />
       
       <View style={styles.actions}>
+        <View style={styles.context}>
+          {pomodoros.map(pomodoro => (
+            <Pressable 
+              key={pomodoro.id}
+              style={timerType.id === pomodoro.id
+                ? styles.contextButtonActive
+                : styles.contextButton
+              }
+              onPress={() => setTimerType(pomodoro)}
+            >
+              <Text style={styles.contextButtonText}>{pomodoro.display}</Text>
+            </Pressable>
+          ))}
+        </View>
+
         <Text style={styles.timer}>
-          24:00
+          { new Date(timerType.initialValue * 1000)
+            .toLocaleTimeString('pt-BR', { 
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+            }) 
+          }
         </Text>
 
         <Pressable style={styles.button}>
@@ -19,6 +64,7 @@ export default function Index() {
         <Text style={styles.footerText}>
           Projeto fictício e sem fins comerciais
         </Text>
+        
         <Text style={styles.footerText}>
           Desenvolvido por Alura.
         </Text>
@@ -43,6 +89,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#144480",
     gap: 32
+  },
+  context: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  contextButton: {
+  },
+  contextButtonActive: {
+    backgroundColor: "#144480",
+    borderRadius: 8,
+  },
+  contextButtonText: {
+    fontSize: 12.5,
+    color: "#ffffff",
+    padding: 8
   },
   timer: {
     fontSize: 54,
