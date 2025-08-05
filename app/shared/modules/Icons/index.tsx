@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export const IconPlay = () => {
+export function IconPlay() {
   return (
     <Svg width="11" height="15" viewBox="0 0 11 15" fill="none">
       <Path
@@ -9,9 +9,9 @@ export const IconPlay = () => {
       />
     </Svg>
   );
-};
+}
 
-export const IconPause = () => {
+export function IconPause() {
   return (
     <Svg width="12" height="15" viewBox="0 0 12 15" fill="none">
       <Path
@@ -20,4 +20,4 @@ export const IconPause = () => {
       />
     </Svg>
   );
-};
+}
