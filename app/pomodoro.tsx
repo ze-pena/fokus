@@ -1,6 +1,6 @@
+import { IAction } from "@/shared/interfaces/Action";
 import { useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { IAction } from "./shared/interfaces/Action";
 
 import Footer from "@/shared/modules/Footer";
 import Timer from "@/shared/modules/Timer";
@@ -26,7 +26,7 @@ const actionList: IAction[] = [
   },
 ];
 
-export default function Index() {
+export default function Pomodoro() {
   const [currentAction, setCurrentAction] = useState(actionList[0]);
 
   return (
