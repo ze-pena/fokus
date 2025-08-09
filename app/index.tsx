@@ -1,43 +1,36 @@
-import { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
-import { IAction } from "./shared/interfaces/Action";
+import { router } from "expo-router";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-import Footer from "./modules/Footer";
-import Timer from "./modules/Timer";
+import Button from "@/shared/modules/Button";
+import Footer from "@/shared/modules/Footer";
 
-const actionList: IAction[] = [
-  {
-    id: "focus",
-    initialValue: 25 * 60,
-    image: require("../assets/images/rest/focus.png"),
-    display: "Foco",
-  },
-  {
-    id: "short",
-    initialValue: 5 * 60,
-    image: require("../assets/images/rest/short.png"),
-    display: "Pausa curta",
-  },
-  {
-    id: "long",
-    initialValue: 15 * 60,
-    image: require("../assets/images/rest/long.png"),
-    display: "Pausa longa",
-  },
-];
+import { Routes } from "@/shared/interfaces/Routes";
 
-export default function Index() {
-  const [currentAction, setCurrentAction] = useState(actionList[0]);
+export default function Home() {
+  function navigateTo(path: Routes) {
+    router.replace(path);
+  }
 
   return (
     <View style={styles.container}>
-      <Image source={currentAction.image} />
+      <Image source={require("../assets/images/home/logo.png")} />
 
-      <Timer
-        actionList={actionList}
-        currentAction={currentAction}
-        onActionPress={setCurrentAction}
-      />
+      <View style={styles.inner}>
+        <Text style={styles.title}>
+          Otimize sua {"\n"} produtividade, {"\n"}
+          <Text style={styles.bold}>mergulhe no que {"\n"} importa</Text>
+        </Text>
+
+        <Image
+          source={require("../assets/images/home/home-frame.png")}
+          style={styles.image}
+        />
+
+        <Button
+          title="Quero iniciar!"
+          onPress={() => navigateTo("/pomodoro")}
+        />
+      </View>
 
       <Footer />
     </View>
@@ -50,5 +43,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#021123",
+    gap: 24,
+  },
+  inner: {
+    justifyContent: "center",
+    gap: 16,
+  },
+  title: {
+    color: "#ffffff",
+    textAlign: "center",
+    fontSize: 26,
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+  image: {
+    maxWidth: 350,
+    maxHeight: 350,
+    resizeMode: "contain",
   },
 });
