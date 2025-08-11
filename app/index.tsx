@@ -4,13 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import Button from "@/shared/modules/Button";
 import Footer from "@/shared/modules/Footer";
 
-import { Routes } from "@/shared/interfaces/Routes";
-
 export default function Home() {
-  function navigateTo(path: Routes) {
-    router.replace(path);
-  }
-
   return (
     <View style={styles.container}>
       <Image source={require("../assets/images/home/logo.png")} />
@@ -28,7 +22,7 @@ export default function Home() {
 
         <Button
           title="Quero iniciar!"
-          onPress={() => navigateTo("/pomodoro")}
+          onPress={() => router.navigate("/pomodoro")}
         />
       </View>
 
