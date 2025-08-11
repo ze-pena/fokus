@@ -67,6 +67,24 @@ export default function RootLayout() {
               },
             }}
           />
+          <Drawer.Screen
+            name="tasks/edit/[id]"
+            options={{
+              title: "",
+              drawerItemStyle: { display: "none" },
+              headerLeft: () => {
+                return (
+                  <Ionicons
+                    name="arrow-back"
+                    size={24}
+                    color="white"
+                    style={{ marginLeft: 16 }}
+                    onPress={() => router.navigate("/tasks")}
+                  />
+                );
+              },
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </TasksProvider>
