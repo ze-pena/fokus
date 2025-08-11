@@ -1,1 +1,1 @@
-export type Routes = "/" | "/pomodoro";
+export type Routes = "/" | "/pomodoro" | "/tasks" | "/tasks/add";
