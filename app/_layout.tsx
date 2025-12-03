@@ -1,11 +1,11 @@
+import { useFonts } from "expo-font";
 import { Drawer } from "expo-router/drawer";
 import React from "react";
-
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import TasksProvider from "@/shared/context/Tasks";
+import GoBackButton from "@/shared/components/GoBackButton";
+
+import TasksProvider from "@/shared/context/Tasks/provider";
 
 const screenOptions = {
   headerStyle: {
@@ -21,7 +21,11 @@ const screenOptions = {
 };
 
 export default function RootLayout() {
-  const router = useRouter();
+  const [isFontsLoaded] = useFonts({
+    "SpaceMono-Regular": require("@/assets/fonts/SpaceMono-Regular.ttf"),
+  });
+
+  if (!isFontsLoaded) return null;
 
   return (
     <TasksProvider>
@@ -36,10 +40,10 @@ export default function RootLayout() {
             }}
           />
           <Drawer.Screen
-            name="pomodoro"
+            name="timer/index"
             options={{
-              drawerLabel: "Timer",
-              title: "Timer",
+              drawerLabel: "Cronômetro",
+              title: "Cronômetro",
             }}
           />
           <Drawer.Screen
@@ -52,36 +56,22 @@ export default function RootLayout() {
           <Drawer.Screen
             name="tasks/add/index"
             options={{
-              title: "",
+              title: "Adicionar tarefas",
               drawerItemStyle: { display: "none" },
-              headerLeft: () => {
-                return (
-                  <Ionicons
-                    name="arrow-back"
-                    size={24}
-                    color="white"
-                    style={{ marginLeft: 16 }}
-                    onPress={() => router.navigate("/tasks")}
-                  />
-                );
+              headerLeft: () => <GoBackButton path="/tasks" />,
+              headerLeftContainerStyle: {
+                paddingRight: 12,
               },
             }}
           />
           <Drawer.Screen
             name="tasks/edit/[id]"
             options={{
-              title: "",
+              title: "Editar tarefas",
               drawerItemStyle: { display: "none" },
-              headerLeft: () => {
-                return (
-                  <Ionicons
-                    name="arrow-back"
-                    size={24}
-                    color="white"
-                    style={{ marginLeft: 16 }}
-                    onPress={() => router.navigate("/tasks")}
-                  />
-                );
+              headerLeft: () => <GoBackButton path="/tasks" />,
+              headerLeftContainerStyle: {
+                paddingRight: 12,
               },
             }}
           />
