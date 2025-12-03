@@ -1,23 +1,23 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
 interface IProps {
-  icon?: React.ReactNode;
+  isOutline?: boolean;
+  icon?: React.ReactElement;
   title: string;
   onPress: () => void;
-  isOutline?: boolean;
 }
 
-export default function Button({
+export default function TimerButton({
+  isOutline,
   icon,
   title,
   onPress,
-  isOutline = false,
 }: IProps) {
   return (
     <Pressable
       style={[
-        styles.button,
-        isOutline ? styles.button_outline : styles.button_fill,
+        styles.container,
+        isOutline ? styles.container_outline : styles.container_filled,
       ]}
       onPress={onPress}
     >
@@ -25,7 +25,7 @@ export default function Button({
       <Text
         style={[
           styles.text,
-          isOutline ? styles.text_outline : styles.text_fill,
+          isOutline ? styles.text_outline : styles.text_filled,
         ]}
       >
         {title}
@@ -35,28 +35,29 @@ export default function Button({
 }
 
 const styles = StyleSheet.create({
-  button: {
+  container: {
     flexDirection: "row",
-    gap: 16,
     alignItems: "center",
     justifyContent: "center",
+    gap: 8,
+    minWidth: 125,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     borderRadius: 32,
   },
-  button_fill: {
+  container_filled: {
     backgroundColor: "#b872ff",
   },
-  button_outline: {
-    backgroundColor: "transparent",
+  container_outline: {
     borderWidth: 2,
     borderColor: "#b872ff",
   },
   text: {
-    textAlign: "center",
     fontSize: 18,
-    padding: 12,
+    fontWeight: 500,
   },
-  text_fill: {
-    color: "#ffffff",
+  text_filled: {
+    color: "#021123",
   },
   text_outline: {
     color: "#b872ff",
