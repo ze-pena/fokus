@@ -1,79 +1,60 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-
-import { useTasks } from "@/shared/context/Tasks";
-import { IconSave } from "@/shared/modules/Icons";
+import { useEffect, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   StyleSheet,
   Text,
-  TextInput,
   TouchableWithoutFeedback,
-  View,
 } from "react-native";
 
-import { ITask } from "@/shared/interfaces/Task";
+import TaskForm from "@/shared/components/TaskForm";
 
-export default function EditTask() {
-  const { id } = useLocalSearchParams();
-  const [currentTask, setCurrentTask] = useState<ITask | null>(null);
-  const [description, setDescription] = useState("");
-  const { tasks, updateTask } = useTasks();
+import { useTasksContext } from "@/shared/context/Tasks/context";
+
+import { ITask } from "@/shared/entities/Task";
+
+export default function EditTaskPage() {
   const router = useRouter();
+  const { id } = useLocalSearchParams();
+  const { tasks, dispatch } = useTasksContext();
 
-  function handleSaveTask() {
-    if (!description.trim() || !currentTask) return;
+  const [currentTask, setCurrentTask] = useState<null | ITask>(null);
 
-    updateTask({
-      ...currentTask,
-      description: description.trim(),
-      updatedAt: new Date(),
-    });
+  function submitForm(task: ITask) {
+    dispatch({ type: "UPDATE_TASK", payload: task });
+  }
 
+  function resetForm() {
     router.navigate("/tasks");
   }
 
-  const searchTask = useCallback(() => {
-    const task = tasks.find((task) => task.id === id);
-
-    if (task) {
-      setDescription(task.description);
-      setCurrentTask(task);
-    }
-  }, [id, tasks]);
-
   useEffect(() => {
-    searchTask();
-  }, [searchTask]);
+    function fetchData() {
+      const task = tasks.find((task) => task.id === id);
+      if (task) setCurrentTask(task);
+    }
+
+    fetchData();
+  }, [id, tasks]);
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <Text style={styles.title}>Editar Tarefa</Text>
+      <Text style={styles.title}>O que você precisa atualizar?</Text>
 
-          <Text style={styles.label}>Descrição da tarefa:</Text>
-
-          <TextInput
-            style={styles.input}
-            numberOfLines={10}
-            multiline
-            value={description}
-            onChangeText={setDescription}
+      {currentTask && (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TaskForm
+            task={currentTask}
+            onSubmit={submitForm}
+            onReset={resetForm}
           />
-
-          <Pressable style={styles.button} onPress={handleSaveTask}>
-            <IconSave />
-            <Text>Alterar</Text>
-          </Pressable>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -84,35 +65,12 @@ const styles = StyleSheet.create({
     gap: 40,
     backgroundColor: "#021123",
     paddingHorizontal: 32,
-    justifyContent: "center",
   },
   title: {
     textAlign: "center",
     color: "#ffffff",
-    fontSize: 26,
-  },
-  inner: {
-    gap: 32,
-    backgroundColor: "#98A0A8",
-    borderRadius: 8,
-    padding: 16,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: 600,
-  },
-  input: {
-    padding: 16,
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    minHeight: 100,
-    textAlign: "left",
-    textAlignVertical: "top",
-  },
-  button: {
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+    fontSize: 24,
+    fontWeight: 500,
+    marginTop: 40,
   },
 });
