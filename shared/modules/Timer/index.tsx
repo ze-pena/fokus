@@ -1,10 +1,12 @@
-import { IAction } from "@/shared/interfaces/Action";
+import { IAction } from "@/shared/entities/Action";
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 
 import ActionButton from "./components/ActionButton";
 import ActionList from "./components/ActionList";
-import TimerButton from "./components/TimerButton";
 import TimerDisplay from "./components/TimerDisplay";
+
+import CustomButton from "@/shared/components/CustomButton";
 
 import { useRef, useState } from "react";
 
@@ -72,9 +74,15 @@ export default function Timer({
 
       <TimerDisplay timerCount={timerCount} />
 
-      <TimerButton
+      <CustomButton
+        icon={
+          <Ionicons
+            name={isRunning ? "pause" : "play"}
+            color="#000"
+            size={18}
+          />
+        }
         title={isRunning ? "Pausar" : "Começar"}
-        icon={isRunning ? "pause" : "play"}
         onPress={toggleTimer}
       />
     </View>

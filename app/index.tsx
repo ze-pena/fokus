@@ -1,8 +1,8 @@
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import Button from "@/shared/modules/Button";
-import Footer from "@/shared/modules/Footer";
+import CommonButton from "@/shared/components/CommonButton";
+import Footer from "@/shared/layout/Footer";
 
 export default function Home() {
   return (
@@ -20,9 +20,9 @@ export default function Home() {
           style={styles.image}
         />
 
-        <Button
+        <CommonButton
           title="Quero iniciar!"
-          onPress={() => router.navigate("/pomodoro")}
+          onPress={() => router.navigate("/timer")}
         />
       </View>
 

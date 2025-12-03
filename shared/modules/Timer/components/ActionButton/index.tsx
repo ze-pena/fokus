@@ -1,4 +1,4 @@
-import { IAction } from "@/shared/interfaces/Action";
+import { IAction } from "@/shared/entities/Action";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 interface IProps {
